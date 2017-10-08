@@ -1,0 +1,19 @@
+{
+    "ok": true,
+    "messages": [
+        {
+            "user": "U24",
+            "text": "<@U24> has joined the channel",
+            "type": "message",
+            "subtype": "channel_join",
+            "ts": "1507082400.01"
+        },
+        {
+            "type": "message",
+            "user": "U29",
+            "text": ":smile:",
+            "ts": "1504227600.000232"
+        }
+    ],
+    "has_more": true
+}

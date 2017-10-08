@@ -1,0 +1,42 @@
+{
+    "ok": true,
+    "messages": [
+
+        {
+            "user": "U32",
+            "text": "<@U32> has joined the channel",
+            "type": "message",
+            "subtype": "channel_join",
+            "ts": "1507611600.01"
+        },
+        {
+            "user": "U23",
+            "text": "<@U23> has joined the channel",
+            "type": "message",
+            "subtype": "channel_join",
+            "ts": "1507316797.000367"
+        },
+        {
+            "type": "message",
+            "user": "U23",
+            "text": ":smile:",
+            "ts": "1507309519.000232"
+        },
+        {
+            "type": "message",
+            "user": "U26",
+            "text": "great to see <@U23> :slightly_smiling_face:",
+            "ts": "1507309398.000374",
+            "reactions": [
+                {
+                    "name": "+1",
+                    "users": [
+                        "U26"
+                    ],
+                    "count": 1
+                }
+            ]
+        }
+    ],
+    "has_more": true
+}

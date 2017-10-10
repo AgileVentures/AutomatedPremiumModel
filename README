@@ -1,8 +1,10 @@
 This is an in-progress prototype for automating the running of the current ML prediction for premium signup
 
-You will need install packages httr and httptest, ie
+You will need to install the packages httr, httptest, anytime and jsonlite, i.e.
 install.packages("httr")
 install.packages("httptest")
+install.packages("jsonlite")
+install.packages("anytime")
 
 To run the existing tests then do:
 

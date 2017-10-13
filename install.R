@@ -1,4 +1,4 @@
-install.packages("httr")
-install.packages("httptest")
-install.packages("jsonlite")
-install.packages("anytime")
+install.packages("httr", repos = "http://cran.us.r-project.org")
+install.packages("httptest", repos = "http://cran.us.r-project.org")
+install.packages("jsonlite", repos = "http://cran.us.r-project.org")
+install.packages("anytime", repos = "http://cran.us.r-project.org")

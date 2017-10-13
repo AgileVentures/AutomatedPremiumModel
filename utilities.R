@@ -9,7 +9,21 @@ fetch_history_from_slack_channel <- function(channel_id, before_this_ts = NULL){
     endpoint = paste("https://slack.com/api/channels.history?token=", test_token,"&channel=", channel_id, "&count=999", sep="")
   }
   response = GET(url=endpoint)
+  if(status_code(response) == 429){
+    #we are rate-limited
+    print("we are rate limited")
+    print(response$headers)
+    Sys.sleep(as.numeric(response$headers$'retry-after') + 1)
+    response = GET(url=endpoint)
+  }
   results = jsonlite::fromJSON(content(response, "text"))
+  
+  if(!("ts" %in% colnames(results$messages))){
+    results$messages = data.frame(ts=character(0), user=character(0))
+  }
+  if(!("user" %in% colnames(results$messages))){
+    results$messages$user <- NA
+  }
   
   results$messages = results$messages[c("user", "ts")]
   return(results)
@@ -69,8 +83,12 @@ fetch_history_from_slack_channel_over_period <- function(channel_id, earliest_da
     messages <- result$messages
     has_more <- result$has_more
     history <- rbind(history,messages)
+    if(nrow(history) == 0){
+      break
+    }
     earliest_ts_so_far <- extract_earliest_channel_history_slack_ts(history)
     earliest_date_of_data <- utc_date_from_slack_channel_ts(earliest_ts_so_far)
+    
   }
   return(drop_messages_from_after_most_recent_date(drop_messages_from_before_earliest_date(history, earliest_date), most_recent_date))
 }

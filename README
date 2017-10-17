@@ -40,8 +40,8 @@ done - Run feature dataframe through ML model, ie adaboost, etc and get results
 
 to do:
 
+* Make code automatically calculate time period to select from (ie, figure out which saturday to begin from and go backwards 3 weeks based on current date)
 *  Make code to send message to @tansaku on slack about week's results (ie, using slackr), and some results to #data-mining (ie, with no emails)
-
 * Test the code that fetches a channel's history for robustness to errors like rate limiting, internet weather, etc (right now a spike is in place that seems to do parts of this)
 
 

@@ -6,10 +6,11 @@ prediction for premium signup
 ## Installation
 
 You will need to install the packages `httr`, `httptest`, `anytime` and `jsonlite`
-`install.packages("httr")`
-`install.packages("httptest")`
-`install.packages("jsonlite")`
-`install.packages("anytime")`
+
+  `install.packages("httr")`
+  `install.packages("httptest")`
+  `install.packages("jsonlite")`
+  `install.packages("anytime")`
 
 ## Running Tests
 
@@ -64,9 +65,7 @@ the dataframe of relevant features from history (week1, week2, week3)
 
 ## Azure Installation
 Now, the purpose of this code is to be deployed to a server to enable automatic
-running on a schedule (e.g. every Sunday).
-
-[Reference](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2)
+running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2)
 
 1. Create an ubuntu VM box in azure based off ubuntu 16.04 lts 
 2. Open an ssh session for a user who has 'root' access in your VM:

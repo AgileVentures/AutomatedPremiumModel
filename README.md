@@ -8,8 +8,11 @@ prediction for premium signup
 You will need to install the packages `httr`, `httptest`, `anytime` and `jsonlite`
 
   `install.packages("httr")`
+
   `install.packages("httptest")`
+
   `install.packages("jsonlite")`
+
   `install.packages("anytime")`
 
 ## Running Tests
@@ -142,12 +145,13 @@ To grant VM access to another user:
      Note that we added both michael and sam here.
 
 4. Create .ssh directory for sam user: `mkdir /home/sam/.ssh`
-5. Edit the authorized keys `sudo vi /home/sam/.ssh/authorized_keys` file and add sam's public key (making sure ssh is at the start)
+5. Edit the authorized keys file `sudo vi /home/sam/.ssh/authorized_keys` and add sam's public key (making sure ssh is at the start)
 6. Give sam back ownership of his folder and file
-    ```
-      sudo chown sam:sam /home/sam/.ssh/authorized_keys
-      sudo chown sam:sam /home/sam/.ssh
-   ```
+
+    `sudo chown sam:sam /home/sam/.ssh/authorized_keys`
+
+    `sudo chown sam:sam /home/sam/.ssh`
+
 7. Add sam to the sudoer group: `sudo usermod -aG sudo sam`
 8. Run the service to make ssh changes be taken up: `sudo service ssh reload` 
 

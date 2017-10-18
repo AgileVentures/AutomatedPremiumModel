@@ -1,9 +1,9 @@
-#Automated Premium Model#
+# Automated Premium Model
 
 This is an in-progress prototype for automating the running of the current ML
 prediction for premium signup
 
-##Installation##
+## Installation
 
 You will need to install the packages `httr`, `httptest`, `anytime` and `jsonlite`
 `install.packages("httr")`
@@ -11,7 +11,7 @@ You will need to install the packages `httr`, `httptest`, `anytime` and `jsonlit
 `install.packages("jsonlite")`
 `install.packages("anytime")`
 
-##Running Tests##
+## Running Tests
 
 `RScript run_tests.R`
 
@@ -36,7 +36,7 @@ where you replace `Sys.getenv` with a real valid token that will work on our sla
 environment variable `PRODUCTION_SLACK_AUTH_TOKEN` via some mechanism such as
 `.bashrc`.
 
-##Completed##
+## Completed
 
  - [x] Code that can fetch a channel's history between dates
  - [x] Make code to Fetch a list of all relevant channels to mine for history
@@ -50,7 +50,7 @@ and build a dataframe of it
 the dataframe of relevant features from history (week1, week2, week3)
  - [x] Run feature dataframe through ML model, ie adaboost, etc and get results
 
-##To Do##
+## To Do
 
 - [ ] Make code automatically calculate time period to select from (ie, figure out
     which saturday to begin from and go backwards 3 weeks based on current date)
@@ -62,7 +62,7 @@ the dataframe of relevant features from history (week1, week2, week3)
     rate limiting, internet weather, etc (right now a spike is in place that
     seems to do parts of this)
 
-##Azure Installation##
+## Azure Installation
 Now, the purpose of this code is to be deployed to a server to enable automatic
 running on a schedule (e.g. every Sunday).
 
@@ -124,7 +124,7 @@ to fail while still loading libraries.
     [4] "domenicoangilletta" "ahalle" "hasnutech"
     [7] "pcaston" "msheinb1" "nirmalkumarb94"
 
-##Adding Another User to the VM##
+## Adding Another User to the VM
 
 To grant VM access to another user:
 

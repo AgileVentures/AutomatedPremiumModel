@@ -118,23 +118,23 @@ running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean
 
     $ Rscript install.R
 
-    $ Rscript run_tests.R # You might see a failure or so, but as of now that is okay, as long as the apparatus seemed
-to fail while still loading libraries.
+    $ Rscript run_tests.R 
 ```
+You might see a failure or so, but as of now that is okay, as long as the apparatus seemed to fail while still loading libraries.
 
 4.  Open a new terminal tab and copy the csv files to the directory on the remote VM as follows:
 
-    ```sh
+```sh
     $ scp av_members.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel
 
     $ scp data.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel
-    ```
+```
 
 5. To run the very basic code so far, return to your ssh session and execute the following command:
 
-   ```sh
+```sh
    $ PRODUCTION_SLACK_AUTH_TOKEN='put your api token' Rscript basic_functionality_so_far.R
-   ```
+```
    
    You'll probably see messages about timeouts and waiting but when the model finishes it should be something like this:
 
@@ -154,10 +154,10 @@ To grant VM access to another user:
 3. Edit the config file as follows: `sudo vi /etc/ssh/sshd_config`
     At the end of the file add
 
-    ```
+```
       PermitRootLogin yes
       AllowUsers michael sam
-    ```
+```
 
      Note that we added both michael and sam here.
 
@@ -165,11 +165,11 @@ To grant VM access to another user:
 5. Edit the authorized keys file `sudo vi /home/sam/.ssh/authorized_keys` and add sam's public key (making sure ssh is at the start)
 6. Give sam back ownership of his folder and file
 
-    ```sh
+```sh
      $ sudo chown sam:sam /home/sam/.ssh/authorized_keys
 
      $ sudo chown sam:sam /home/sam/.ssh
-     ```
+```
 
 7. Add sam to the sudoer group: `sudo usermod -aG sudo sam`
 8. Run the service to make ssh changes be taken up: `sudo service ssh reload` 

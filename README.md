@@ -7,21 +7,25 @@ prediction for premium signup
 
 You will need to install the packages `httr`, `httptest`, `anytime` and `jsonlite`
 
-  `install.packages("httr")`
+```r
+$ install.packages("httr")
 
-  `install.packages("httptest")`
+$ install.packages("httptest")
 
-  `install.packages("jsonlite")`
+$ install.packages("jsonlite")
 
-  `install.packages("anytime")`
+$ install.packages("anytime")
+```
 
 ## Running Tests
 
-`RScript run_tests.R`
+```sh
+$ RScript run_tests.R
+```
 
 You should get something like this output:
 
-```
+```sh
 Loading required package: testthat Loading required package: methods testing
 utilities: ............
 
@@ -33,7 +37,9 @@ and examine the results in the variable `results` to see what can be gleaned so
 far from the history of the `#general` channel. However, you will need to insert a
 valid token into `test_token`, i.e. modify this line:
 
-`test_token <-Sys.getenv('PRODUCTION_SLACK_AUTH_TOKEN')`,
+```r
+test_token <-Sys.getenv('PRODUCTION_SLACK_AUTH_TOKEN')
+```
 
 where you replace `Sys.getenv` with a real valid token that will work on our slack
 `#general` channel, OR you arrange for a valid token to exist in the
@@ -73,52 +79,63 @@ running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean
 1. Create an ubuntu VM box in azure based off ubuntu 16.04 lts 
 2. Open an ssh session for a user who has 'root' access in your VM:
 
-    `ssh michael@automatedpremium-production`
+    ```sh
+    $ ssh michael@automatedpremium-production
+    ```
 
 3. In your ssh session:
 
-    `sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'`
+    ```sh
+    $ sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
 
-    `sudo apt-get update`
+    $ sudo apt-get update
 
-    `sudo apt-get install r-base`
+    $ sudo apt-get install r-base
 
-    `Rscript --version`
+    $ Rscript --version
+    ```
 
     You should see output similar to this:
 
-    ```
+    ```sh
       R scripting front-end version 3.4.2 (2017-09-28)
     ```
 
     Now you are ready to install the app.
 
-    `sudo apt-get install git`
+    ```sh
+    $ sudo apt-get install git
 
-    `git clone https://github.com/AgileVentures/AutomatedPremiumModel`
+    $ git clone https://github.com/AgileVentures/AutomatedPremiumModel
 
-    `sudo chown michael:michael /usr/local/lib/R/site-library` (so that you have rights to install)
+    $ sudo chown michael:michael /usr/local/lib/R/site-library   # so that you have rights to install
 
-    `cd AutomatedPremiumModel`
+    $ cd AutomatedPremiumModel
 
-    `sudo apt-get install libcurl4-openssl-dev`
+    $ sudo apt-get install libcurl4-openssl-dev
 
-    `sudo apt-get install libssl-dev`
+    $ sudo apt-get install libssl-dev
 
-    `Rscript install.R`
+    $ Rscript install.R
 
-    `Rscript run_tests.R` You might see a failure or so, but as of now that is okay, as long as the apparatus seemed
+    $ Rscript run_tests.R # You might see a failure or so, but as of now that is okay, as long as the apparatus seemed
 to fail while still loading libraries.
+```
 
 4.  Open a new terminal tab and copy the csv files to the directory on the remote VM as follows:
 
-    `scp av_members.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel`
+    ```sh
+    $ scp av_members.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel
 
-    `scp data.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel`
+    $ scp data.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel
+    ```
 
 5. To run the very basic code so far, return to your ssh session and execute the following command:
 
-   `PRODUCTION_SLACK_AUTH_TOKEN='put your api token' Rscript basic_functionality_so_far.R`
+   ```sh
+   $ PRODUCTION_SLACK_AUTH_TOKEN='put your api token' Rscript basic_functionality_so_far.R
+   ```
+   
    You'll probably see messages about timeouts and waiting but when the model finishes it should be something like this:
 
     [1] "the top 10 free members that might signup are: "
@@ -148,9 +165,11 @@ To grant VM access to another user:
 5. Edit the authorized keys file `sudo vi /home/sam/.ssh/authorized_keys` and add sam's public key (making sure ssh is at the start)
 6. Give sam back ownership of his folder and file
 
-    `sudo chown sam:sam /home/sam/.ssh/authorized_keys`
+    ```sh
+     $ sudo chown sam:sam /home/sam/.ssh/authorized_keys
 
-    `sudo chown sam:sam /home/sam/.ssh`
+     $ sudo chown sam:sam /home/sam/.ssh
+     ```
 
 7. Add sam to the sudoer group: `sudo usermod -aG sudo sam`
 8. Run the service to make ssh changes be taken up: `sudo service ssh reload` 

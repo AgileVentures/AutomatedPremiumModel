@@ -1,11 +1,12 @@
 test_token <- Sys.getenv('PRODUCTION_SLACK_AUTH_TOKEN')
+api_token <- Sys.getenv('PRODUCTION_SLACK_BOT_TOKEN')
 
 source("utilities.R")
 library(slackr)
 
 
-earliest_date = as.Date("2017-09-17")
-latest_date = as.Date("2017-10-07")
+earliest_date = as.Date("2017-09-24")
+latest_date = as.Date("2017-10-14")
 
 
 channels <- slackr_channels(test_token)
@@ -105,3 +106,26 @@ ids = names(sort(probs, decreasing=TRUE))[0:10]
 predicted <- to_be_predicted[0:10,]
 print(predicted$user)
 print(predicted$email)
+
+#relay the results to the slack channel 
+
+datamining <- channels[channels$name == "data-mining",]
+datamining_id <- datamining[1,]$id
+
+text <- paste("<!here> this week's picks for premium signup are:", paste(predicted$user, sep="", collapse=" "))
+
+endpoint = paste("https://slack.com/api/chat.postMessage?token=", api_token , "&channel=", datamining_id,"&username=", "premium-automated-bot","&text=", sep="",URLencode(text))
+
+response = GET(url=endpoint)
+results = jsonlite::fromJSON(content(response, "text"))
+
+user_id = users[users$name == "tansaku",][1]$id
+
+
+text <- paste("this week's picks' emails for premium signup are:", paste(predicted$email, sep="", collapse=" "))
+
+endpoint = paste("https://slack.com/api/chat.postMessage?token=", api_token, "&channel=", user_id,"&username=", "premium-automated-bot","&text=", sep="",URLencode(text))
+
+response = GET(url=endpoint)
+results = jsonlite::fromJSON(content(response, "text"))
+

@@ -32,6 +32,7 @@ without_internet({
   test_that("fetch_history_from_slack_channel calls right endpoint", {
     expect_GET(fetch_history_from_slack_channel("C0285CSUF"), paste("https://slack.com/api/channels.history?token=", test_token, "&channel=C0285CSUF&count=999", sep=""))
   })
+  
   test_that("fetch_history_from_slack_channel calls right endpoint when there is a ts", {
     expect_GET(fetch_history_from_slack_channel("C0285CSUF", "123.12"), paste("https://slack.com/api/channels.history?token=", test_token, "&channel=C0285CSUF&count=999&latest=123.12", sep=""))
   })
@@ -57,6 +58,12 @@ with_mock_API({
     three_sundays_ago <- as.Date("2017-10-07") - 20
     full_history <- fetch_history_from_slack_channel_over_period("C300", three_sundays_ago, last_saturday)
     expect_equal(full_history$user, c("U24"))
+  })
+  
+  test_that("message_project_channel_with_user_names calls right endpoint", {
+    users <- data.frame(user=c("yada", "yolo"))$user
+    #expect_GET(message_project_channel_with_user_names(users), "")
+    message_project_channel_with_user_names(users)
   })
 })
 

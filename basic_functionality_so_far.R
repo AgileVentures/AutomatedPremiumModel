@@ -1,11 +1,12 @@
 test_token <- Sys.getenv('PRODUCTION_SLACK_AUTH_TOKEN')
+api_token <- Sys.getenv('PRODUCTION_SLACK_BOT_TOKEN')
 
 source("utilities.R")
 library(slackr)
 
 
-earliest_date = as.Date("2017-09-17")
-latest_date = as.Date("2017-10-07")
+earliest_date = as.Date("2017-09-24")
+latest_date = as.Date("2017-10-14")
 
 
 channels <- slackr_channels(test_token)
@@ -100,8 +101,14 @@ print("the top 10 free members that might signup are: ")
 
 to_be_predicted$probs <- predict(ab, type="response", n.trees=100,newdata=to_be_predicted)
 to_be_predicted <- to_be_predicted[order(-to_be_predicted$probs),]
-ids = names(sort(probs, decreasing=TRUE))[0:10]
 
 predicted <- to_be_predicted[0:10,]
 print(predicted$user)
 print(predicted$email)
+
+#relay the results to the slack channel 
+
+message_project_channel_with_user_names(predicted$user, channels)
+
+message_admin_with_user_emails(predicted$email, users)
+

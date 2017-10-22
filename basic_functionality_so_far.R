@@ -99,6 +99,10 @@ print("the top 10 free members that might signup are: ")
 
 to_be_predicted$probs <- predict(ab, type="response", n.trees=100,newdata=to_be_predicted)
 to_be_predicted <- to_be_predicted[order(-to_be_predicted$probs),]
+<<<<<<< Updated upstream
+=======
+#ids = names(sort(probs, decreasing=TRUE))[0:10]
+>>>>>>> Stashed changes
 
 predicted <- to_be_predicted[0:10,]
 print(predicted$user)

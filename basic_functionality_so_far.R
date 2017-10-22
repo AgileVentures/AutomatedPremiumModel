@@ -108,7 +108,7 @@ print(predicted$email)
 
 #relay the results to the slack channel 
 
-message_project_channel_with_user_names(predicted$user)
+message_project_channel_with_user_names(predicted$user, channels)
 
-message_admin_with_user_emails(predicted$email)
+message_admin_with_user_emails(predicted$email, users)
 

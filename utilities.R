@@ -93,7 +93,7 @@ fetch_history_from_slack_channel_over_period <- function(channel_id, earliest_da
   return(drop_messages_from_after_most_recent_date(drop_messages_from_before_earliest_date(history, earliest_date), most_recent_date))
 }
 
-message_project_channel_with_user_names <- function(user_names){
+message_project_channel_with_user_names <- function(user_names, channels){
   datamining <- channels[channels$name == "data-mining",]
   datamining_id <- datamining[1,]$id 
   text <- paste("<!here> this week's picks for premium signup are:", paste(user_names, sep="", collapse=" "))
@@ -102,7 +102,7 @@ message_project_channel_with_user_names <- function(user_names){
   results = jsonlite::fromJSON(content(response, "text"))
 }
 
-message_admin_with_user_emails <- function(user_emails){
+message_admin_with_user_emails <- function(user_emails, users){
   user_id = users[users$name == "tansaku",][1]$id
   text <- paste("this week's picks' emails for premium signup are:", paste(user_emails, sep="", collapse=" "))
   endpoint = paste("https://slack.com/api/chat.postMessage?token=", api_token, "&channel=", user_id,"&username=", "premium-automated-bot","&text=", sep="",URLencode(text))

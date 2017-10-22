@@ -3,3 +3,5 @@
 .DS_Store
 av_members.csv
 data.csv
+crontabsetup.txt
+setup_environs.sh

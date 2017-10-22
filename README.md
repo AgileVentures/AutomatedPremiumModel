@@ -76,7 +76,7 @@ the dataframe of relevant features from history (week1, week2, week3)
 Now, the purpose of this code is to be deployed to a server to enable automatic
 running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2)
 
-1. Create an ubuntu VM box in azure based off ubuntu 16.04 lts 
+1. Create an ubuntu VM box in azure based off ubuntu 16.04 lts
 2. Open an ssh session for a user who has 'root' access in your VM:
 
     ```sh
@@ -120,7 +120,7 @@ running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean
 
     $ Rscript run_tests.R 
     ```
-    
+
     You might see a failure or so, but as of now that is okay, as long as the apparatus seemed to fail while still loading libraries.
 
 4.  Open a new terminal tab and copy the csv files to the directory on the remote VM as follows:
@@ -136,13 +136,20 @@ running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean
    ```sh
    $ PRODUCTION_SLACK_AUTH_TOKEN='put your api token' Rscript basic_functionality_so_far.R
    ```
-   
-   You'll probably see messages about timeouts and waiting but when the model finishes it should be something like this:
 
+   You'll probably see messages about timeouts and waiting but when the model finishes it should be something like this:
+   ```
     [1] "the top 10 free members that might signup are: "
     [1] "roschaefer" "joaopereira" "sdas4" 
     [4] "domenicoangilletta" "ahalle" "hasnutech"
     [7] "pcaston" "msheinb1" "nirmalkumarb94"
+    ```
+
+## Set Up cron Job
+To automate the running of the model every Sunday:
+1.  Copy example environs file
+  `cp setup_environs.sh.example setup_environs.sh`
+2. Edit `setup_environs.sh` file to add your keys
 
 ## Adding Another User to the VM
 

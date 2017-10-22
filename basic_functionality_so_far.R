@@ -4,10 +4,8 @@ api_token <- Sys.getenv('PRODUCTION_SLACK_BOT_TOKEN')
 source("utilities.R")
 library(slackr)
 
-
-earliest_date = as.Date("2017-09-24")
-latest_date = as.Date("2017-10-14")
-
+latest_date = compute_last_saturday_utc_date(Sys.time())
+earliest_date = latest_date - 20
 
 channels <- slackr_channels(test_token)
 

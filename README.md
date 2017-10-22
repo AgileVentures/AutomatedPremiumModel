@@ -118,7 +118,7 @@ running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean
 
     $ Rscript install.R
 
-    $ Rscript run_tests.R 
+    $ Rscript run_tests.R
     ```
 
     You might see a failure or so, but as of now that is okay, as long as the apparatus seemed to fail while still loading libraries.
@@ -140,7 +140,7 @@ running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean
    You'll probably see messages about timeouts and waiting but when the model finishes it should be something like this:
    ```
     [1] "the top 10 free members that might signup are: "
-    [1] "roschaefer" "joaopereira" "sdas4" 
+    [1] "roschaefer" "joaopereira" "sdas4"
     [4] "domenicoangilletta" "ahalle" "hasnutech"
     [7] "pcaston" "msheinb1" "nirmalkumarb94"
     ```
@@ -150,6 +150,8 @@ To automate the running of the model every Sunday:
 1.  Copy example environs file
   `cp setup_environs.sh.example setup_environs.sh`
 2. Edit `setup_environs.sh` file to add your keys
+
+3. Setup the crontab file by running `./setup_crontab.sh` in the app directory
 
 ## Adding Another User to the VM
 
@@ -180,7 +182,7 @@ To grant VM access to another user:
    ```
 
 7. Add sam to the sudoer group: `sudo usermod -aG sudo sam`
-8. Run the service to make ssh changes be taken up: `sudo service ssh reload` 
+8. Run the service to make ssh changes be taken up: `sudo service ssh reload`
 
 
     Now sam should be able to ssh in with a proper configuration on his side.

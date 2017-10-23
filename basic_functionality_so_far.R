@@ -1,6 +1,9 @@
 test_token <- Sys.getenv('PRODUCTION_SLACK_AUTH_TOKEN')
 api_token <- Sys.getenv('PRODUCTION_SLACK_BOT_TOKEN')
 
+library(anytime)
+library(httr)
+library(jsonlite)
 library(automatedpremium)
 library(slackr)
 

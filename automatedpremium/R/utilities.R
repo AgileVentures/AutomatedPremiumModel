@@ -2,6 +2,9 @@ library(anytime)
 library(httr)
 library(jsonlite)
 
+test_token <- Sys.getenv('PRODUCTION_SLACK_AUTH_TOKEN')
+api_token <- Sys.getenv('PRODUCTION_SLACK_BOT_TOKEN')
+
 fetch_history_from_slack_channel <- function(channel_id, before_this_ts = NULL){
   if(!is.null(before_this_ts)){
     endpoint = paste("https://slack.com/api/channels.history?token=", test_token,"&channel=", channel_id, "&count=999","&latest=", before_this_ts, sep="")

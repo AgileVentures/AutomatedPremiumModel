@@ -1,5 +1,5 @@
 library(testthat)
 library(httptest)
-devtools::install()
+library(automatedpremium)
 
 test_check("automatedpremium")

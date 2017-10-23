@@ -2,6 +2,10 @@ language: r
 r:
   - 3.4.2
 
+install: Rscript install.R
+
+script: Rscript run_tests.R
+
 addons:
   apt:
     packages:

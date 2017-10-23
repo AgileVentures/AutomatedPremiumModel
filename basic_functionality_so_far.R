@@ -11,8 +11,11 @@ latest_date = compute_last_saturday_utc_date(Sys.time())
 earliest_date = latest_date - 20
 
 channels <- slackr_channels(test_token)
+channels <- subset(channels,!is_archived) #archived channels seem to be problematic?
+channels <- subset(channels, name != "z-harrow-gb-40")
 
 channel_histories = lapply(channels$id, function(id){
+  Sys.sleep(1)
   fetch_history_from_slack_channel_over_period(id, earliest_date, latest_date)
 })
 

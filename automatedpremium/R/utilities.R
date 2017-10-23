@@ -68,7 +68,6 @@ compute_last_saturday_utc_date <- function(now_timestamp){
 }
 
 fetch_history_from_slack_channel_over_period <- function(channel_id, earliest_date, most_recent_date){
-  
   drop_messages_from_before_earliest_date <- function(messages, earliest_date){
     return(subset(messages, !(lapply(ts,utc_date_from_slack_channel_ts) < earliest_date)))
   }
@@ -76,7 +75,6 @@ fetch_history_from_slack_channel_over_period <- function(channel_id, earliest_da
   drop_messages_from_after_most_recent_date <- function(messages, most_recent_date){
     return(subset(messages, !(lapply(ts,utc_date_from_slack_channel_ts) > most_recent_date)))
   }
-  
   earliest_date_of_data <- earliest_date + 1
   earliest_ts_so_far <- NULL
   history <- NULL
@@ -91,7 +89,6 @@ fetch_history_from_slack_channel_over_period <- function(channel_id, earliest_da
     }
     earliest_ts_so_far <- extract_earliest_channel_history_slack_ts(history)
     earliest_date_of_data <- utc_date_from_slack_channel_ts(earliest_ts_so_far)
-    
   }
   return(drop_messages_from_after_most_recent_date(drop_messages_from_before_earliest_date(history, earliest_date), most_recent_date))
 }

@@ -2,7 +2,8 @@ language: r
 r:
   - 3.4.2
 
-script: R CMD check automatedpremium
+install: R CMD INSTALL automatedpremium
+script: R CMD check automatedpremium --no-manual
 
 addons:
   apt:

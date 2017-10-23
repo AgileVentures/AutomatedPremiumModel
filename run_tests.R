@@ -1,4 +1,6 @@
 options(warn=-1)
 library(httptest)
-test_dir("tests")
+devtools::install('automatedpremium')
+
+test_dir("automatedpremium/tests")
 options(warn=0)

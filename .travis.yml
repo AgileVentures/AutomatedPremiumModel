@@ -1,0 +1,12 @@
+language: r
+r:
+  - 3.4.2
+
+install: Rscript install_travis.R
+script: R CMD check automatedpremium --no-manual
+
+addons:
+  apt:
+    packages:
+      - libcurl4-openssl-dev
+      - libssl-dev

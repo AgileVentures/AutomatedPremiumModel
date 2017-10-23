@@ -1,0 +1,17 @@
+Package: automatedpremium
+Title: automation
+Version: 0.0.0.9000
+Author: mtc2013 michael [aut,cre]
+Maintainer: mtc2013 michael <michael@agileventures.org>
+Description: Helps automate premium prediction models for AV.
+Depends: R (>= 3.4.1)
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Imports:
+  httr,
+  httptest,
+  jsonlite,
+  anytime,
+  slackr  
+Suggests: testthat

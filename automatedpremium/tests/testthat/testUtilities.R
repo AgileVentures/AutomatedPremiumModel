@@ -1,5 +1,5 @@
-source("../utilities.R")
-source("../test_token.R")
+source("../../../automatedpremium/R/utilities.R")
+source("../../../automatedpremium/R/test_token.R")
 
 
 context("testing utilities")
@@ -20,10 +20,10 @@ test_that("extract_earliest_channel_history_slack_ts", {
 })
 
 test_that("compute_last_saturday_utc_date", {
-  current_time <- anytime("2017-10-07 20:00:00 EDT")
+  current_time <- anytime("2017-10-08 01:00:00", asUTC=TRUE)
   last_saturday <- as.Date("2017-10-07")
   expect_equal(compute_last_saturday_utc_date(current_time), last_saturday)
-  current_time <- anytime("2017-10-07 12:29:37 EDT")
+  current_time <- anytime("2017-10-07 12:29:37", asUTC=TRUE)
   last_saturday <- as.Date("2017-09-30")
   expect_equal(compute_last_saturday_utc_date(current_time), last_saturday)
 })
@@ -63,7 +63,7 @@ with_mock_API({
   test_that("message_project_channel_with_user_names calls right endpoint", {
     users <- data.frame(user=c("yada", "yolo"))$user
     channels <- data.frame(name=c("awesome-channel", "data-mining", "blah"), id=c('c1', 'c2', 'c3'))
-    expect_GET(message_project_channel_with_user_names(users, channels), "https://slack.com/api/chat.postMessage?token=abc-d&channel=c2&username=premium-automated-bot&text=%3C!here%3E%20this%20week's%20picks%20for%20premium%20signup%20are:%20yada%20yolo")
+    expect_GET(message_project_channel_with_user_names(users, channels),"https://slack.com/api/chat.postMessage?token=abc-d&channel=c2&username=premium-automated-bot&text=%3C!here%3E%20this%20week's%20picks%20for%20premium%20signup%20are:%20yada%20yolo")
   })
   
   test_that("message_admin_with_user_emails calls right endpoint", {

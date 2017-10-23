@@ -5,3 +5,6 @@ av_members.csv
 data.csv
 crontabsetup.txt
 setup_environs.sh
+.Rproj.user
+automatedpremium.Rcheck/
+automatedpremium/automatedpremium.Rproj.Rcheck/

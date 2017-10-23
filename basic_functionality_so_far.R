@@ -1,7 +1,7 @@
 test_token <- Sys.getenv('PRODUCTION_SLACK_AUTH_TOKEN')
 api_token <- Sys.getenv('PRODUCTION_SLACK_BOT_TOKEN')
 
-source("utilities.R")
+library(automatedpremium)
 library(slackr)
 
 latest_date = compute_last_saturday_utc_date(Sys.time())

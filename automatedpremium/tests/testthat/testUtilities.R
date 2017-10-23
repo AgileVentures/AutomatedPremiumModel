@@ -1,5 +1,6 @@
-source("../utilities.R")
-source("../test_token.R")
+
+source("../../../automatedpremium/R/utilities.R")
+source("../../../automatedpremium/R/test_token.R")
 
 
 context("testing utilities")

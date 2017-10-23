@@ -1,3 +1,9 @@
 language: r
 r:
   - 3.4.2
+
+addons:
+  apt:
+    packages:
+      - libcurl4-openssl-dev
+      - libssl-dev

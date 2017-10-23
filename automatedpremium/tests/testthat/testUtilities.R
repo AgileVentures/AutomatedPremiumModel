@@ -21,10 +21,10 @@ test_that("extract_earliest_channel_history_slack_ts", {
 })
 
 test_that("compute_last_saturday_utc_date", {
-  current_time <- anytime("2017-10-07 20:00:00 EDT")
+  current_time <- anytime("2017-10-08 01:00:00", asUTC=TRUE)
   last_saturday <- as.Date("2017-10-07")
   expect_equal(compute_last_saturday_utc_date(current_time), last_saturday)
-  current_time <- anytime("2017-10-07 12:29:37 EDT")
+  current_time <- anytime("2017-10-07 12:29:37", asUTC=TRUE)
   last_saturday <- as.Date("2017-09-30")
   expect_equal(compute_last_saturday_utc_date(current_time), last_saturday)
 })

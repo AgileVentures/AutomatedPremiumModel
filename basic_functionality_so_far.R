@@ -15,8 +15,7 @@ channels <- subset(channels,!is_archived) #archived channels seem to be problema
 channels <- subset(channels, name != "z-harrow-gb-40")
 
 channel_histories = lapply(channels$id, function(id){
-  Sys.sleep(1)
-  fetch_history_from_slack_channel_over_period(id, earliest_date, latest_date)
+  fetch_history_from_slack_channel_over_period(id, earliest_date, latest_date, test_token)
 })
 
 total_history <- Reduce(rbind, channel_histories) #combine all posts into one giant frame
@@ -112,7 +111,7 @@ print(predicted$email)
 
 #relay the results to the slack channel 
 
-message_project_channel_with_user_names(predicted$user, channels)
+message_project_channel_with_user_names(predicted$user, channels, api_token)
 
-message_admin_with_user_emails(predicted$email, users)
+message_admin_with_user_emails(predicted$email, users, api_token)
 

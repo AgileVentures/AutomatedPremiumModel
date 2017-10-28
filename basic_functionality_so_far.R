@@ -1,6 +1,9 @@
 test_token <- Sys.getenv('PRODUCTION_SLACK_AUTH_TOKEN')
 api_token <- Sys.getenv('PRODUCTION_SLACK_BOT_TOKEN')
 
+library(anytime)
+library(httr)
+library(jsonlite)
 library(automatedpremium)
 library(slackr)
 
@@ -8,9 +11,11 @@ latest_date = compute_last_saturday_utc_date(Sys.time())
 earliest_date = latest_date - 20
 
 channels <- slackr_channels(test_token)
+channels <- subset(channels,!is_archived) #archived channels seem to be problematic?
+channels <- subset(channels, name != "z-harrow-gb-40")
 
 channel_histories = lapply(channels$id, function(id){
-  fetch_history_from_slack_channel_over_period(id, earliest_date, latest_date)
+  fetch_history_from_slack_channel_over_period(id, earliest_date, latest_date, test_token)
 })
 
 total_history <- Reduce(rbind, channel_histories) #combine all posts into one giant frame
@@ -106,7 +111,7 @@ print(predicted$email)
 
 #relay the results to the slack channel 
 
-message_project_channel_with_user_names(predicted$user, channels)
+message_project_channel_with_user_names(predicted$user, channels, api_token)
 
-message_admin_with_user_emails(predicted$email, users)
+message_admin_with_user_emails(predicted$email, users, api_token)
 

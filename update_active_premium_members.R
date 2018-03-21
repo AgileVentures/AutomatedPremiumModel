@@ -1,5 +1,7 @@
 library(httr)
 
+today <- as.Date(Sys.time())
+
 endpoint = "https://www.agileventures.org/api/subscriptions.json"
 token <- Sys.getenv('WSO_TOKEN')
 auth_value <- paste("Token token=\"", token,"\"",sep="")
@@ -24,7 +26,6 @@ premium_users[premium_users$email == email_aliases_for_those_whose_email_differs
 premium_users_in_slack <- merge(premium_users,users, by="email")
 premium_users_in_slack$ended_on <- as.Date(premium_users_in_slack$ended_on)
 
-today <- as.Date(Sys.time())
 active_premium_users_in_slack <- subset(premium_users_in_slack, (ended_on > today | is.na(ended_on)) & plan_name != "Associate")
 active_premium_users_slack_names <- unique(active_premium_users_in_slack$name)
 active_premium_users_slack_names <- c(active_premium_users_slack_names, "tansaku")

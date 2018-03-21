@@ -8,3 +8,4 @@ setup_environs.sh
 .Rproj.user
 automatedpremium.Rcheck/
 automatedpremium/automatedpremium.Rproj.Rcheck/
+email_aliases.csv

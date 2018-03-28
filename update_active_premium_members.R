@@ -29,6 +29,7 @@ premium_users_in_slack$ended_on <- as.Date(premium_users_in_slack$ended_on)
 active_premium_users_in_slack <- subset(premium_users_in_slack, (ended_on > today | is.na(ended_on)) & plan_name != "Associate")
 active_premium_users_slack_names <- unique(active_premium_users_in_slack$name)
 active_premium_users_slack_names <- c(active_premium_users_slack_names, "tansaku")
+active_premium_users_slack_names <- c(active_premium_users_slack_names, "slackbot")
 
 
 

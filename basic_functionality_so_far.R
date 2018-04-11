@@ -96,7 +96,6 @@ perfTest <- performance(predTest, "auc")
 perfTest@y.values[[1]] # 0.7092623
 
 premiums <- read.csv("av_members.csv")
-premiums <- subset(premiums, premiums$Special != "Cancelled")
 
 to_be_predicted <- subset(to_be_predicted, !(user %in% premiums$Slack))
 

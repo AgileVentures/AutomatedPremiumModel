@@ -72,56 +72,54 @@ the dataframe of relevant features from history (week1, week2, week3)
     rate limiting, internet weather, etc (right now a spike is in place that
     seems to do parts of this)
 
-## Azure Installation
+## Dokku deployment on Azure
 Now, the purpose of this code is to be deployed to a server to enable automatic
 running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2)
 
-1. Create an ubuntu VM box in azure based off ubuntu 16.04 lts
-2. Open an ssh session for a user who has 'root' access in your VM:
+1. Use the Dokku template https://github.com/azure/azure-quickstart-templates/tree/master/dokku-vm to create a Dokku instance on Azure
 
-    ```sh
-    $ ssh michael@automatedpremium-production
-    ```
+2. Connect to the instance vi ssh , e.g. `ssh ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com`
 
 3. In your ssh session:
 
     ```sh
-    $ sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+    $ List the ssh keys and verify that no public keys exist `dokku ssh-keys:list`
 
-    $ sudo apt-get update
+    $ Create a file containing your public key named `dokku.pub`
 
-    $ sudo apt-get install r-base
+    $ Add your public key `dokku ssh-keys:add [your-user-name] dokku.pub`
 
-    $ Rscript --version
+    $ List the keys again and verify that the list is no longer empty `dokku ssh-keys:list`
+
+    $ Remove the file `rm dokku.pub`
+
+    $ Exit from the shell
     ```
 
-    You should see output similar to this:
+    Now you are ready to create the app in dokku.
 
     ```sh
-      R scripting front-end version 3.4.2 (2017-09-28)
+    $ Create the app
     ```
-
-    Now you are ready to install the app.
-
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com apps:create apm-dokku-trial
     ```sh
-    $ sudo apt-get install git
 
-    $ git clone https://github.com/AgileVentures/AutomatedPremiumModel
-
-    $ sudo chown michael:michael /usr/local/lib/R/site-library   # so that you have rights to install
-
-    $ cd AutomatedPremiumModel
-
-    $ sudo apt-get install libcurl4-openssl-dev
-
-    $ sudo apt-get install libssl-dev
-
-    $ Rscript install.R
-
-    $ Rscript run_tests.R
+    $ Set the build arguments
     ```
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-dokku-trial build '--build-arg PRODUCTION_SLACK_AUTH_TOKEN=[TOKEN]'
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-dokku-trial build '--build-arg WSO_TOKEN=[TOKEN]'
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-dokku-trial build '--build-arg PRODUCTION_SLACK_BOT_TOKEN=[TOKEN]'
+    ```sh
 
-    You might see a failure or so, but as of now that is okay, as long as the apparatus seemed to fail while still loading libraries.
+    $ Add the dokku remote
+    ```
+       git remote add dokku dokku@apm-dokku-trial.eastus2.cloudapp.azure.com:apm-dokku-trial
+    ```sh
+
+    $ Start the build by pushing to the dokku remote
+    ```
+       git push dokku master
+    ```sh
 
 4.  Open a new terminal tab and copy the csv files to the directory on the remote VM as follows:
 

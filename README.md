@@ -59,14 +59,14 @@ and build a dataframe of it
  - [x] Make code to cross link the list of all users data, ie emai land username, with
 the dataframe of relevant features from history (week1, week2, week3)
  - [x] Run feature dataframe through ML model, ie adaboost, etc and get results
+ - [x] Make code to send message to @tansaku on slack about week's results (ie,
+     using slackr), and some results to \#data-mining (ie, with no emails)
 
 ## To Do
 
 - [ ] Make code automatically calculate time period to select from (ie, figure out
     which saturday to begin from and go backwards 3 weeks based on current date)
 
-- [ ] Make code to send message to @tansaku on slack about week's results (ie,
-    using slackr), and some results to \#data-mining (ie, with no emails)
 
 - [ ] Test the code that fetches a channel's history for robustness to errors like
     rate limiting, internet weather, etc (right now a spike is in place that

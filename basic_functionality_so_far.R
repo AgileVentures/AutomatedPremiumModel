@@ -35,15 +35,15 @@ third_week_end <- latest_date - 14
 third_week_start <- latest_date - 20
 
 total_history$week1 <- unlist(lapply(total_history$utcdate, function(date){
-  (first_week_start <= date) && (first_week_end >= date) 
+  (first_week_start <= date) && (first_week_end >= date)
 }))
 
 total_history$week2 <- unlist(lapply(total_history$utcdate, function(date){
-  (second_week_start <= date) && (second_week_end >= date) 
+  (second_week_start <= date) && (second_week_end >= date)
 }))
 
 total_history$week3 <- unlist(lapply(total_history$utcdate, function(date){
-  (third_week_start <= date) && (third_week_end >= date) 
+  (third_week_start <= date) && (third_week_end >= date)
 }))
 
 df1 <- aggregate(week1 ~ user, total_history, sum)
@@ -66,7 +66,7 @@ to_be_predicted <- final[c("week1", "week2", "week3", "user", "email")]
 #here is code from elsewhere-- the model
 
 
-data = read.csv("data.csv")
+data = read.csv("data/data.csv")
 nonzerodata = subset(data, week1 > 0 | week2 > 0 | week3 > 0)
 library(caTools)
 library(DMwR)
@@ -95,7 +95,7 @@ predTest <- prediction(probTest, test$premium)
 perfTest <- performance(predTest, "auc")
 perfTest@y.values[[1]] # 0.7092623
 
-premiums <- read.csv("av_members.csv")
+premiums <- read.csv("data/av_members.csv")
 
 to_be_predicted <- subset(to_be_predicted, !(user %in% premiums$Slack))
 
@@ -108,9 +108,8 @@ predicted <- to_be_predicted[0:10,]
 print(predicted$user)
 print(predicted$email)
 
-#relay the results to the slack channel 
+#relay the results to the slack channel
 
 message_project_channel_with_user_names(predicted$user, channels, api_token)
 
 message_admin_with_user_emails(predicted$email, users, api_token)
-

@@ -59,99 +59,97 @@ and build a dataframe of it
  - [x] Make code to cross link the list of all users data, ie emai land username, with
 the dataframe of relevant features from history (week1, week2, week3)
  - [x] Run feature dataframe through ML model, ie adaboost, etc and get results
+ - [x] Make code to send message to @tansaku on slack about week's results (ie,
+     using slackr), and some results to \#data-mining (ie, with no emails)
 
 ## To Do
 
 - [ ] Make code automatically calculate time period to select from (ie, figure out
     which saturday to begin from and go backwards 3 weeks based on current date)
 
-- [ ] Make code to send message to @tansaku on slack about week's results (ie,
-    using slackr), and some results to \#data-mining (ie, with no emails)
 
 - [ ] Test the code that fetches a channel's history for robustness to errors like
     rate limiting, internet weather, etc (right now a spike is in place that
     seems to do parts of this)
 
-## Azure Installation
+## Dokku deployment on Azure
 Now, the purpose of this code is to be deployed to a server to enable automatic
 running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean.com/community/tutorials/how-to-install-r-on-ubuntu-16-04-2)
 
-1. Create an ubuntu VM box in azure based off ubuntu 16.04 lts
-2. Open an ssh session for a user who has 'root' access in your VM:
+1. Use the Dokku template https://github.com/azure/azure-quickstart-templates/tree/master/dokku-vm to create a Dokku instance on Azure
 
-    ```sh
-    $ ssh michael@automatedpremium-production
-    ```
+2. Connect to the instance vi ssh , e.g. `ssh ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com`
 
 3. In your ssh session:
 
     ```sh
-    $ sudo add-apt-repository 'deb [arch=amd64,i386] https://cran.rstudio.com/bin/linux/ubuntu xenial/'
+    $ List the ssh keys and verify that no public keys exist `dokku ssh-keys:list`
 
-    $ sudo apt-get update
+    $ Create a file containing your public key named `dokku.pub`
 
-    $ sudo apt-get install r-base
+    $ Add your public key `dokku ssh-keys:add [your-user-name] dokku.pub`
 
-    $ Rscript --version
+    $ List the keys again and verify that the list is no longer empty `dokku ssh-keys:list`
+
+    $ Remove the file `rm dokku.pub`
+
+    $ Exit from the shell
     ```
 
-    You should see output similar to this:
+    Now you are ready to create the app in dokku.
 
     ```sh
-      R scripting front-end version 3.4.2 (2017-09-28)
+    $ Create the app
     ```
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com apps:create apm-production-docker
+    ```sh
 
-    Now you are ready to install the app.
+    $ Set the build arguments
+    ```
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-production-docker build '--build-arg PRODUCTION_SLACK_AUTH_TOKEN=[TOKEN]'
+
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-production-docker build '--build-arg WSO_TOKEN=[TOKEN]'
+
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-production-docker build '--build-arg PRODUCTION_SLACK_BOT_TOKEN=[TOKEN]'
+    ```sh
+
+    $ Add the dokku remote
+    ```
+       git remote add dokku dokku@apm-dokku-trial.eastus2.cloudapp.azure.com:apm-production-docker
+    ```sh
+
+    $ Start the build by pushing to the dokku remote.  This will take some time.
+    ```
+       git push dokku master
+    ```sh
+
+4.  While the build is running, open a new terminal tab and copy the csv files and the shell script to the directory on the remote VM as follows:
 
     ```sh
-    $ sudo apt-get install git
+    $ scp av_members.csv  ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com:
 
-    $ git clone https://github.com/AgileVentures/AutomatedPremiumModel
+    $ scp data.csv  ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com:
 
-    $ sudo chown michael:michael /usr/local/lib/R/site-library   # so that you have rights to install
+    $ scp email_aliases.csv  ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com:
 
-    $ cd AutomatedPremiumModel
-
-    $ sudo apt-get install libcurl4-openssl-dev
-
-    $ sudo apt-get install libssl-dev
-
-    $ Rscript install.R
-
-    $ Rscript run_tests.R
+    $ scp setup_crontab.sh ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com:
     ```
 
-    You might see a failure or so, but as of now that is okay, as long as the apparatus seemed to fail while still loading libraries.
-
-4.  Open a new terminal tab and copy the csv files to the directory on the remote VM as follows:
-
+5. ssh into the box, move the files you just uploaded, and mount the data volume
     ```sh
-    $ scp av_members.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel
+    $ ssh ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com
 
-    $ scp data.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel
+    $ sudo mv *.csv /var/lib/dokku/data/storage
+
+    $ dokku storage:mount apm-production-docker  /var/lib/dokku/data/storage:/app/data
     ```
 
-5. To run the very basic code so far, return to your ssh session and execute the following command:
+6. To run the very basic code so far, return to your ssh session and execute the following command:
 
    ```sh
-   $ PRODUCTION_SLACK_AUTH_TOKEN='put your api token' Rscript basic_functionality_so_far.R
+   $ dokku --rm run apm-production-docker Rscript basic_functionality_so_far.R
    ```
-
-   You'll probably see messages about timeouts and waiting but when the model finishes it should be something like this:
-   ```
-    [1] "the top 10 free members that might signup are: "
-    [1] "roschaefer" "joaopereira" "sdas4"
-    [4] "domenicoangilletta" "ahalle" "hasnutech"
-    [7] "pcaston" "msheinb1" "nirmalkumarb94"
-    ```
-
-## Set Up cron Job
-To automate the running of the model every Sunday:
-1.  Copy example environs file
-  `cp setup_environs.sh.example setup_environs.sh`
-2. Edit `setup_environs.sh` file to add your keys
-
-3. Setup the crontab file by running `./setup_crontab.sh` in the app directory
+   You should see a message in the `#data-mining` channel with this week's picks for premium signup.
 
 ## Adding Another User to the VM
 
@@ -183,6 +181,5 @@ To grant VM access to another user:
 
 7. Add sam to the sudoer group: `sudo usermod -aG sudo sam`
 8. Run the service to make ssh changes be taken up: `sudo service ssh reload`
-
 
     Now sam should be able to ssh in with a proper configuration on his side.

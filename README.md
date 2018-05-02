@@ -101,55 +101,55 @@ running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean
     ```sh
     $ Create the app
     ```
-       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com apps:create apm-dokku-trial
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com apps:create apm-production-docker
     ```sh
 
     $ Set the build arguments
     ```
-       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-dokku-trial build '--build-arg PRODUCTION_SLACK_AUTH_TOKEN=[TOKEN]'
-       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-dokku-trial build '--build-arg WSO_TOKEN=[TOKEN]'
-       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-dokku-trial build '--build-arg PRODUCTION_SLACK_BOT_TOKEN=[TOKEN]'
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-production-docker build '--build-arg PRODUCTION_SLACK_AUTH_TOKEN=[TOKEN]'
+
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-production-docker build '--build-arg WSO_TOKEN=[TOKEN]'
+
+       ssh dokku@apm-dokku-trial.eastus2.cloudapp.azure.com docker-options:add apm-production-docker build '--build-arg PRODUCTION_SLACK_BOT_TOKEN=[TOKEN]'
     ```sh
 
     $ Add the dokku remote
     ```
-       git remote add dokku dokku@apm-dokku-trial.eastus2.cloudapp.azure.com:apm-dokku-trial
+       git remote add dokku dokku@apm-dokku-trial.eastus2.cloudapp.azure.com:apm-production-docker
     ```sh
 
-    $ Start the build by pushing to the dokku remote
+    $ Start the build by pushing to the dokku remote.  This will take some time.
     ```
        git push dokku master
     ```sh
 
-4.  Open a new terminal tab and copy the csv files to the directory on the remote VM as follows:
+4.  While the build is running, open a new terminal tab and copy the csv files and the shell script to the directory on the remote VM as follows:
 
     ```sh
-    $ scp av_members.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel
+    $ scp av_members.csv  ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com:
 
-    $ scp data.csv michael@automatedpremium-production:/home/michael/AutomatedPremiumModel
+    $ scp data.csv  ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com:
+
+    $ scp email_aliases.csv  ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com:
+
+    $ scp setup_crontab.sh ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com:
     ```
 
-5. To run the very basic code so far, return to your ssh session and execute the following command:
+5. ssh into the box, move the files you just uploaded, and mount the data volume
+    ```
+    $ ssh ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com
+
+    $ sudo mv *.csv /var/lib/dokku/data/storage
+
+    $ dokku storage:mount apm-production-docker  /var/lib/dokku/data/storage:/app/data
+    ```sh
+
+6. To run the very basic code so far, return to your ssh session and execute the following command:
 
    ```sh
-   $ PRODUCTION_SLACK_AUTH_TOKEN='put your api token' Rscript basic_functionality_so_far.R
+   $ dokku --rm run apm-production-docker Rscript basic_functionality_so_far.R
    ```
-
-   You'll probably see messages about timeouts and waiting but when the model finishes it should be something like this:
-   ```
-    [1] "the top 10 free members that might signup are: "
-    [1] "roschaefer" "joaopereira" "sdas4"
-    [4] "domenicoangilletta" "ahalle" "hasnutech"
-    [7] "pcaston" "msheinb1" "nirmalkumarb94"
-    ```
-
-## Set Up cron Job
-To automate the running of the model every Sunday:
-1.  Copy example environs file
-  `cp setup_environs.sh.example setup_environs.sh`
-2. Edit `setup_environs.sh` file to add your keys
-
-3. Setup the crontab file by running `./setup_crontab.sh` in the app directory
+   You should see a message in the `#data-mining` channel with this week's picks for premium signup.
 
 ## Adding Another User to the VM
 
@@ -181,6 +181,5 @@ To grant VM access to another user:
 
 7. Add sam to the sudoer group: `sudo usermod -aG sudo sam`
 8. Run the service to make ssh changes be taken up: `sudo service ssh reload`
-
 
     Now sam should be able to ssh in with a proper configuration on his side.

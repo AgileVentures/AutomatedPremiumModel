@@ -136,13 +136,13 @@ running on a schedule (e.g. every Sunday).  [Reference](https://www.digitalocean
     ```
 
 5. ssh into the box, move the files you just uploaded, and mount the data volume
-    ```
+    ```sh
     $ ssh ubuntu@apm-dokku-trial.eastus2.cloudapp.azure.com
 
     $ sudo mv *.csv /var/lib/dokku/data/storage
 
     $ dokku storage:mount apm-production-docker  /var/lib/dokku/data/storage:/app/data
-    ```sh
+    ```
 
 6. To run the very basic code so far, return to your ssh session and execute the following command:
 

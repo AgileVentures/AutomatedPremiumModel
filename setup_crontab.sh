@@ -1,8 +1,6 @@
 #!/bin/bash
-SHELLFILE=${HOME}/AutomatedPremiumModel/run_model.sh
-UPDATESHELLFILE=${HOME}/AutomatedPremiumModel/run_update_of_active_premiums.sh
 cat <<EOF > crontabsetup.txt
-05 04 * * 0 ${SHELLFILE}
-05 01 * * 0 ${UPDATESHELLFILE}
+05 04 * * 0 dokku --rm run apm-production-docker Rscript basic_functionality_so_far.R
+05 01 * * 0 dokku --rm run apm-production-docker Rscript updated_active_premium_members.R
 EOF
-crontab crontabsetup.txt
+sudo crontab -u dokku crontabsetup.txt

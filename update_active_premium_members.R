@@ -34,4 +34,4 @@ active_premium_users_slack_names <- c(active_premium_users_slack_names, "slackbo
 
 
 slack_names <- data.frame(Slack=active_premium_users_slack_names)
-write.csv(slack_names, file="av_members.csv")
+write.csv(slack_names, file="data/av_members.csv")

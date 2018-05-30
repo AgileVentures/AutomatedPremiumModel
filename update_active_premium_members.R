@@ -30,6 +30,12 @@ active_premium_users_in_slack <- subset(premium_users_in_slack, (ended_on > toda
 active_premium_users_slack_names <- unique(active_premium_users_in_slack$name)
 active_premium_users_slack_names <- c(active_premium_users_slack_names, "tansaku")
 active_premium_users_slack_names <- c(active_premium_users_slack_names, "slackbot")
+active_premium_users_slack_names <- c(active_premium_users_slack_names, "stella")
+active_premium_users_slack_names <- c(active_premium_users_slack_names, "willw")
+active_premium_users_slack_names <- c(active_premium_users_slack_names, "joaopereira")
+active_premium_users_slack_names <- c(active_premium_users_slack_names, "cfme00")
+
+
 
 
 

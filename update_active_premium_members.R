@@ -18,9 +18,10 @@ all <- merge(premium_users, users, by="email", all.x = TRUE)
 no_matching_email_in_slack <- all[is.na(all$id),]
 active_premium_users_whose_email_in_wso_does_not_match_in_slack <- subset(no_matching_email_in_slack, (ended_on > today | is.na(ended_on)) & plan_name != "Associate")
 email_aliases <- read.csv("data/email_aliases.csv", stringsAsFactors=FALSE)
-email_aliases_for_those_whose_email_differs <- email_aliases[email_aliases$email==active_premium_users_whose_email_in_wso_does_not_match_in_slack$email,]
 
-premium_users[premium_users$email == email_aliases_for_those_whose_email_differs$email,]$email = email_aliases_for_those_whose_email_differs$alias_email
+users_who_have_been_matched_with_email_aliases <- merge(active_premium_users_whose_email_in_wso_does_not_match_in_slack, email_aliases, by="email")
+
+premium_users$email[match(users_who_have_been_matched_with_email_aliases$email, premium_users$email)] <- users_who_have_been_matched_with_email_aliases$alias_email
 
 
 premium_users_in_slack <- merge(premium_users,users, by="email")

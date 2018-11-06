@@ -1,5 +1,6 @@
 test_token <- Sys.getenv('PRODUCTION_SLACK_AUTH_TOKEN')
-api_token <- Sys.getenv('PRODUCTION_SLACK_BOT_TOKEN')
+#api_token <- Sys.getenv('PRODUCTION_SLACK_BOT_TOKEN')
+api_token <- test_token
 
 library(anytime)
 library(httr)

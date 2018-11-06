@@ -63,7 +63,7 @@ with_mock_API({
   test_that("message_project_channel_with_user_names calls right endpoint", {
     users <- data.frame(user=c("yada", "yolo"))$user
     channels <- data.frame(name=c("awesome-channel", "data-mining", "blah"), id=c('c1', 'c2', 'c3'))
-    expect_GET(message_project_channel_with_user_names(users, channels, api_token),"https://slack.com/api/chat.postMessage?token=abc-d&channel=c2&username=premium-automated-bot&text=%3C!here%3E%20this%20week's%20picks%20for%20premium%20signup%20are:%20%3C@yada%3E%20%3C@yolo%3E")
+    expect_GET(message_project_channel_with_user_names(users, channels, api_token),"https://slack.com/api/chat.postMessage?token=abc-d&channel=GAL5XL8F7&username=premium-automated-bot&text=%3C!here%3E%20this%20week's%20picks%20for%20premium%20signup%20are:%20%3C@yada%3E%20%3C@yolo%3E")
   })
   
   test_that("message_admin_with_user_emails calls right endpoint", {

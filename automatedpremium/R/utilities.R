@@ -96,11 +96,12 @@ fetch_history_from_slack_channel_over_period <- function(channel_id, earliest_da
 }
 
 message_project_channel_with_user_names <- function(user_names, channels, api_token){
-  datamining <- channels[channels$name == "data-mining",]
-  datamining_id <- datamining[1,]$id 
+  #datamining <- channels[channels$name == "data-mining",]
+  #datamining_id <- datamining[1,]$id 
+  mentors_extra_id <- "GAL5XL8F7"
   user_names <- lapply(user_names, function(user) paste(paste("<@", user, sep=""), ">", sep=""))
   text <- paste("<!here> this week's picks for premium signup are:", paste(user_names, sep="", collapse=" "))
-  endpoint = paste("https://slack.com/api/chat.postMessage?token=", api_token , "&channel=", datamining_id,"&username=", "premium-automated-bot","&text=", sep="",URLencode(text))
+  endpoint = paste("https://slack.com/api/chat.postMessage?token=", api_token , "&channel=", mentors_extra_id,"&username=", "premium-automated-bot","&text=", sep="",URLencode(text))
   response = GET(url=endpoint)
   results = jsonlite::fromJSON(content(response, "text"))
 }

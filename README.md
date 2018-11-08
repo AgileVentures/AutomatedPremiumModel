@@ -3,6 +3,12 @@
 This is an in-progress prototype for automating the running of the current ML
 prediction for premium signup
 
+## Data Flow
+
+![Automated Premium Data Flow](https://dl.dropbox.com/s/14h4lgih0syqc9t/Screenshot%202018-11-08%2016.23.19.png?dl=0)
+
+[Google Drive Drawing](https://docs.google.com/drawings/d/16kFt8gXO1sANx_L-nBXQMjrERzKGnsNc48NHj3maFHU/edit)
+
 ## Installation
 
 You will need to install the packages `httr`, `httptest`, `anytime` and `jsonlite`

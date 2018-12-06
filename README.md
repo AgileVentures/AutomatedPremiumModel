@@ -5,7 +5,7 @@ prediction for premium signup
 
 ## Data Flow
 
-![Automated Premium Data Flow](https://dl.dropbox.com/s/14h4lgih0syqc9t/Screenshot%202018-11-08%2016.23.19.png?dl=0)
+![Automated Premium Data Flow](https://dl.dropbox.com/s/mgrb3m4798rvbw5/Screenshot%202018-12-06%2015.50.16.png?dl=0)
 
 [Google Drive Drawing](https://docs.google.com/drawings/d/16kFt8gXO1sANx_L-nBXQMjrERzKGnsNc48NHj3maFHU/edit)
 

@@ -2,7 +2,7 @@ library(httr)
 
 today <- as.Date(Sys.time())
 
-endpoint = "https://www.agileventures.org/api/subscriptions.json"
+endpoint = "https://www.agileventures.org/legacy_api/subscriptions.json"
 token <- Sys.getenv('WSO_TOKEN')
 auth_value <- paste("Token token=\"", token,"\"",sep="")
 resp <- GET(endpoint,add_headers(authorization = auth_value))

@@ -35,7 +35,7 @@ active_premium_users_slack_names <- c(active_premium_users_slack_names, "stella"
 active_premium_users_slack_names <- c(active_premium_users_slack_names, "willwhite")
 active_premium_users_slack_names <- c(active_premium_users_slack_names, "joaopereira")
 active_premium_users_slack_names <- c(active_premium_users_slack_names, "cfme00")
-active_premium_users_slack_names <- c(active_premium_users_slack_names, "AlexChan")
+active_premium_users_slack_names <- c(active_premium_users_slack_names, "alex.chan95")
 active_premium_users_slack_names <- c(active_premium_users_slack_names, "roschaefer")
 
 
